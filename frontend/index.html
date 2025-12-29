@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Todo Compare</title>
+</head>
+
+<body>
+    <h1>Todo Compare</h1>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+        <section style="border:1px solid #ddd; padding:12px;">
+            <h2>Node (http://localhost:3000)</h2>
+            <input id="nodeTitle" placeholder="todo title" />
+            <button id="nodeAddBtn">Add</button>
+            <button id="nodeReloadBtn">Reload</button>
+            <ul id="nodeList"></ul>
+            <pre id="nodeLog" style="background:#f5f5f5;padding:10px;"></pre>
+        </section>
+
+        <section style="border:1px solid #ddd; padding:12px;">
+            <h2>Laravel (http://localhost:8000)</h2>
+            <input id="laravelTitle" placeholder="todo title" />
+            <button id="laravelAddBtn">Add</button>
+            <button id="laravelReloadBtn">Reload</button>
+            <ul id="laravelList"></ul>
+            <pre id="laravelLog" style="background:#f5f5f5;padding:10px;"></pre>
+        </section>
+    </div>
+
+
+    <ul id="list"></ul>
+
+    <pre id="log" style="background:#f5f5f5;padding:10px;"></pre>
+
+    <script type="module" src="./app.js"></script>
+</body>
+
+</html>
