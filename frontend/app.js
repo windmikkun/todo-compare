@@ -20,6 +20,7 @@ function setLog(target, v) {
 async function request(base, options = {}) {
   const res = await fetch(`${base.url}${base.path}${options.suffix ?? ""}`, {
     headers: { "Content-Type": "application/json" },
+    cache: "no-store",
     ...options,
   });
 
@@ -55,6 +56,9 @@ async function load(target) {
     li.appendChild(del);
     ul.appendChild(li);
   }
+
+  // 現在の一覧をログに表示
+  setLog(target, todos);
 }
 
 
@@ -63,7 +67,7 @@ async function add(target) {
   const input =
     target === "node"
       ? document.getElementById("nodeTitle")
-      : document.getElementById("lvTitle");
+      : document.getElementById("laravelTitle");
 
   const title = input.value.trim();
   if (!title) return;
