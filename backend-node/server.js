@@ -1,12 +1,30 @@
 import express from "express";
 import cors from "cors";
+import fs from "fs";
+import path from "path";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-let nextId = 1;
-const todos = [];
+const DATA_PATH = path.join(process.cwd(), "node_todos.json");
+
+function loadTodos() {
+  if (!fs.existsSync(DATA_PATH)) return [];
+  try {
+    const data = JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveTodos(todos) {
+  fs.writeFileSync(DATA_PATH, JSON.stringify(todos, null, 2));
+}
+
+let todos = loadTodos();
+let nextId = todos.length ? Math.max(...todos.map((t) => t.id)) + 1 : 1;
 
 app.get("/api/nodeTodos", (req, res) => {
   res.json(todos);
@@ -18,6 +36,7 @@ app.post("/api/nodeTodos", (req, res) => {
 
   const todo = { id: nextId++, title, completed: false };
   todos.push(todo);
+  saveTodos(todos);
   res.status(201).json(todo);
 });
 
@@ -27,6 +46,7 @@ app.delete("/api/nodeTodos/:id", (req, res) => {
   if (idx === -1) return res.status(404).json({ message: "not found" });
 
   todos.splice(idx, 1);
+  saveTodos(todos);
   res.status(204).send("");
 });
 
